@@ -1,0 +1,56 @@
+/* Custom Styles */
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif; /* Clean and modern font */
+    }
+
+    .content {
+        margin-left: 250px;
+        padding: 30px;
+        transition: margin-left 0.3s ease;
+    }
+
+    .content.collapsed {
+        margin-left: 80px;
+    }
+
+    h3 {
+        font-weight: bold;
+        text-align: left;
+        color: rgb(0, 0, 0); /* Blue */
+    }
+
+    .btn-primary, .btn-warning, .btn-danger {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+        font-family: Arial, sans-serif;
+    }
+
+    .btn-primary:hover, .btn-warning:hover, .btn-danger:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        transform: scale(1.05);
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .modal-header {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+
+    .modal-title {
+        font-weight: bold;
+    }
+
+    .table-responsive {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
