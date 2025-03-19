@@ -16,61 +16,7 @@ if (!isset($_SESSION['user_id'])) {
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/css/all.min.css">
-    <link rel="stylesheet" href="../../assets/css/mystyle.css"> 
-
-
-<!-- Custom Styles -->
-<style>
-    .candidate-card {
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    }
-
-.candidate-card:hover {
-    transform: scale(1.05); /* Slightly enlarge the card */
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Add a soft shadow */
-}
-
-
-    /* Soft Gradient Overlay */
-    .info-overlay {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        padding: 20px;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)); /* Soft fade effect */
-        transition: height 0.3s ease-in-out;
-        height: 150px; /* Default height */
-    }
-
-    .candidate-card:hover .info-overlay {
-        height: auto; /* Expand on hover */
-    }
-
-    .candidate-card:hover .extra-info {
-        display: block !important; /* Show extra details */
-    }
-
-    /* White Burger Icon with Shadow */
-    .burger-icon {
-        color: white;
-        border: none;
-        font-size: 1.2rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Soft shadow */
-        padding: 5px 10px;
-        border-radius: 4px;
-        background: transparent;
-    }
-
-    .burger-icon:hover {
-        color: rgba(255, 255, 255, 0.8);
-    }
-
-    .dropdown-menu {
-        min-width: 120px;
-    }
-</style>
+    <link rel="stylesheet" href="../../assets/css/style.css"> 
 
 </head>
 <body>
@@ -91,7 +37,8 @@ if (!isset($_SESSION['user_id'])) {
    
 
     <div class="d-flex align-items-center mb-3">
-    <input type="text" id="searchInput" class="form-control w-25" placeholder="Search..." onkeyup="searchCandidates()">
+    <input type="text" id="searchInput" class="form-control w-25" placeholder="Search..." oninput="searchCandidates()">
+
 </div>
 
 
@@ -185,274 +132,73 @@ if (!isset($_SESSION['user_id'])) {
 
     <!-- Pagination Controls -->
     <nav class="mt-4">
-        <ul class="pagination justify-content-center">
-            <?php if ($page > 1): ?>
-                <li class="page-item">
-                    <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= $search ?>">Previous</a>
-                </li>
-            <?php endif; ?>
+    <ul class="pagination justify-content-center">
+        <?php if ($page > 1): ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>">Previous</a>
+            </li>
+        <?php endif; ?>
 
-            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                    <a class="page-link" href="?page=<?= $i ?>&search=<?= $search ?>"><?= $i ?></a>
-                </li>
-            <?php endfor; ?>
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
+            </li>
+        <?php endfor; ?>
 
-            <?php if ($page < $totalPages): ?>
-                <li class="page-item">
-                    <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= $search ?>">Next</a>
-                </li>
-            <?php endif; ?>
-        </ul>
-    </nav>
-</div>
-
-
-
-
+        <?php if ($page < $totalPages): ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>">Next</a>
+            </li>
+        <?php endif; ?>
+    </ul>
+</nav>
 
 </div>
 
-<!-- Add Candidate Modal -->
-<div class="modal fade" id="addCandidateModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Candidate</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <!-- Left Column -->
-                        <div class="col-md-6">
-                            <input type="number" id="cno" class="form-control mb-2" placeholder="Candidate Number">
-                            <input type="text" id="fullName" class="form-control mb-2" placeholder="Full Name">
-                            <input type="text" id="department" class="form-control mb-2" placeholder="Department">
-                            <input type="text" id="course" class="form-control mb-2" placeholder="Course">
-                        </div>
 
-                        <!-- Right Column -->
-                        <div class="col-md-6">
-                            <input type="number" id="age" class="form-control mb-2" placeholder="Age">
-                            <select id="gender" class="form-control mb-2">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                            <input type="text" id="year" class="form-control mb-2" placeholder="Year">
-                            <input type="text" id="category" class="form-control mb-2" placeholder="Category">
-                        </div>
-                    </div>
-
-                    <input type="text" id="motto" class="form-control mb-2" placeholder="Motto">
-                    <textarea id="bio" class="form-control mb-2" placeholder="Bio"></textarea>
-                    <input type="file" id="photo" class="form-control mb-2" accept="image/*">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="addCandidate()">Save</button>
-            </div>
-        </div>
-    </div>
 </div>
 
-
-<!-- Edit Candidate Modal -->
-<div class="modal fade" id="editCandidateModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Candidate</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="editId">
-
-                <div class="container">
-                    <div class="row">
-                        <!-- Left Column -->
-                        <div class="col-md-6">
-                            <input type="number" id="editcno" class="form-control mb-2" placeholder="Candidate Number">
-                            <input type="text" id="editFullName" class="form-control mb-2" placeholder="Full Name">
-                            <input type="text" id="editDepartment" class="form-control mb-2" placeholder="Department">
-                            <input type="text" id="editCourse" class="form-control mb-2" placeholder="Course">
-                        </div>
-
-                        <!-- Right Column -->
-                        <div class="col-md-6">
-                            <input type="number" id="editAge" class="form-control mb-2" placeholder="Age">
-                            <select id="editGender" class="form-control mb-2">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                            <input type="text" id="editYear" class="form-control mb-2" placeholder="Year">
-                            <input type="text" id="editCategory" class="form-control mb-2" placeholder="Category">
-                        </div>
-                    </div>
-
-                    <input type="text" id="editMotto" class="form-control mb-2" placeholder="Motto">
-                    <textarea id="editBio" class="form-control mb-2" placeholder="Bio"></textarea>
-                    
-                    <!-- Image Preview -->
-                    <div class="text-center">
-                        <img id="editPhotoPreview" src="../../assets/img/default-avatar.png" class="img-fluid mb-2" style="max-height: 200px;">
-                    </div>
-                    
-                    <input type="file" id="editPhoto" class="form-control mb-2" accept="image/*">
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-primary onclick="updateCandidate()">Update</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+<?php include '../components/modals/add_candidates_modal.php'; ?>
 
 <!-- Bootstrap and jQuery JS -->
 <script src="../../assets/js/jquery.min.js"></script>
 <script src="../../assets/js/bootstrap.bundle.min.js"></script>
 <script src="../../assets/js/sweetalert2.min.js"></script>
+<script src="../../assets/js/candidates.js"></script>
 
-<script>
-function addCandidate() {
-    const formData = new FormData();
-    formData.append('cno', $('#cno').val());
-    formData.append('full_name', $('#fullName').val());
-    formData.append('age', $('#age').val());
-    formData.append('gender', $('#gender').val());
-    formData.append('department', $('#department').val());
-    formData.append('course', $('#course').val());
-    formData.append('year', $('#year').val());
-    formData.append('category', $('#category').val());
-    formData.append('motto', $('#motto').val());
-    formData.append('bio', $('#bio').val());
-    formData.append('photo', $('#photo')[0].files[0]);
-
-    $.ajax({
-        type: 'POST',
-        url: '../../controllers/add_candidate.php',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(response) {
-            Swal.fire({
-                title: 'Success!',
-                text: response.message,
-                icon: 'success'
-            }).then(() => location.reload());
-        },
-        error: function() {
-            Swal.fire('Oops!', 'Failed to add candidate.', 'error');
-        }
-    });
-}
-
-function confirmDelete(id) {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to undo this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.post('../../controllers/delete_candidate.php', { id: id }, function(response) {
-                Swal.fire('Deleted!', response.message, 'success').then(() => location.reload());
-            }).fail(() => {
-                Swal.fire('Oops!', 'Failed to delete candidate.', 'error');
-            });
-        }
-    });
-}
-
-</script>
-
-<script>
-function openEditModal(candidate) {
-    $('#editId').val(candidate.id);
-    $('#editcno').val(candidate.candidate_number);
-    $('#editFullName').val(candidate.full_name);
-    $('#editAge').val(candidate.age);
-    $('#editGender').val(candidate.gender);
-    $('#editDepartment').val(candidate.department);
-    $('#editCourse').val(candidate.course);
-    $('#editYear').val(candidate.year);
-    $('#editCategory').val(candidate.category);
-    $('#editMotto').val(candidate.motto);
-    $('#editBio').val(candidate.bio);
-    
-    // Show existing profile picture
-    let currentPhoto = candidate.photo ? `../../uploads/${candidate.photo}` : '../../assets/img/default-avatar.png';
-    $('#editPhotoPreview').attr('src', currentPhoto);
-
-    $('#editCandidateModal').modal('show');
-}
-
-function updateCandidate() {
-    const formData = new FormData();
-    formData.append('id', $('#editId').val());
-    formData.append('editcno', $('#editcno').val());
-    formData.append('full_name', $('#editFullName').val());
-    formData.append('age', $('#editAge').val());
-    formData.append('gender', $('#editGender').val());
-    formData.append('department', $('#editDepartment').val());
-    formData.append('course', $('#editCourse').val());
-    formData.append('year', $('#editYear').val());
-    formData.append('category', $('#editCategory').val());
-    formData.append('motto', $('#editMotto').val());
-    formData.append('bio', $('#editBio').val());
-
-    // Include the photo if a new file is selected
-    const photo = $('#editPhoto')[0].files[0];
-    if (photo) {
-        formData.append('photo', photo);
-    }
-
-    $.ajax({
-        type: 'POST',
-        url: '../../controllers/update_candidate.php',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(response) {
-            Swal.fire('Updated!', response.message, 'success').then(() => location.reload());
-        },
-        error: function() {
-            Swal.fire('Oops!', 'Failed to update candidate.', 'error');
-        }
-    });
-}
-
-</script>
 
 
 <!-- JavaScript for Search -->
 <script>
 function searchCandidates() {
-    let input = document.getElementById("searchInput").value.toLowerCase();
-    let cards = document.querySelectorAll(".candidate-card");
-    let noMatchMessage = document.getElementById("noMatchMessage");
-    let found = false;
+    let input = document.getElementById("searchInput").value.trim();
+    let url = new URL(window.location.href);
+    
+    if (input) {
+        url.searchParams.set("search", input); // Update search query in URL
+        url.searchParams.set("page", 1); // Reset to first page
+    } else {
+        url.searchParams.delete("search"); // Remove search query if empty
+    }
 
-    cards.forEach(card => {
-        let name = card.querySelector("h5").innerText.toLowerCase();
-        let category = card.querySelector(".badge").innerText.toLowerCase();
+    window.history.pushState({}, "", url); // Update URL without refresh
 
-        if (name.includes(input) || category.includes(input)) {
-            card.parentElement.style.display = "block"; // Show matching card
-            found = true;
-        } else {
-            card.parentElement.style.display = "none"; // Hide non-matching card
-        }
-    });
-
-    // Show "No Match Found" message if no results, hide otherwise
-    noMatchMessage.style.display = found ? "none" : "block";
+    // Fetch the updated candidates list dynamically
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(html, "text/html");
+            let candidatesContent = doc.querySelector(".row.g-4").innerHTML;
+            document.querySelector(".row.g-4").innerHTML = candidatesContent;
+            
+            let paginationContent = doc.querySelector(".pagination").innerHTML;
+            document.querySelector(".pagination").innerHTML = paginationContent;
+        })
+        .catch(error => console.error("Error fetching search results:", error));
 }
+
+
 </script>
 
 </body>

@@ -1,0 +1,54 @@
+/* Candidates Styles */
+.candidate-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.candidate-card:hover {
+transform: scale(1.05); /* Slightly enlarge the card */
+box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Add a soft shadow */
+}
+
+
+/* Soft Gradient Overlay */
+.info-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)); /* Soft fade effect */
+    transition: height 0.3s ease-in-out;
+    height: 150px; /* Default height */
+}
+
+.candidate-card:hover .info-overlay {
+    height: auto; /* Expand on hover */
+}
+
+.candidate-card:hover .extra-info {
+    display: block !important; /* Show extra details */
+}
+
+/* White Burger Icon with Shadow */
+.burger-icon {
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Soft shadow */
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: transparent;
+}
+
+.burger-icon:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.dropdown-menu {
+    min-width: 120px;
+}
+
+/* end Candidates Styles */
+
+
