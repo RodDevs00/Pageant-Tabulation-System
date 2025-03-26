@@ -25,7 +25,10 @@
                                 <option value="Female">Female</option>
                             </select>
                             <input type="text" id="year" class="form-control mb-2" placeholder="Year">
-                            <input type="text" id="category" class="form-control mb-2" placeholder="Category">
+                            <select id="category" class="form-control mb-2">
+                                <option value="MISS ADFC">Miss ADFC</option>
+                                <option value="MISTER ADFC">Mister ADFC</option>
+                            </select>
                         </div>
                     </div>
 
@@ -70,7 +73,10 @@
                                 <option value="Female">Female</option>
                             </select>
                             <input type="text" id="editYear" class="form-control mb-2" placeholder="Year">
-                            <input type="text" id="editCategory" class="form-control mb-2" placeholder="Category">
+                            <select id="editCategory" class="form-control mb-2">
+                                <option value="MISS ADFC">Miss ADFC</option>
+                                <option value="MISTER ADFC">Mister ADFC</option>
+                            </select>
                         </div>
                     </div>
 

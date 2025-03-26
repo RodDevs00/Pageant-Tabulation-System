@@ -18,7 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
 
-        header("Location: ../views/admin/dashboard.php");
+        if ($user['role'] === 'admin') {
+            header("Location: ../views/admin/dashboard.php");
+        } elseif ($user['role'] === 'judge') {
+            header("Location: ../views/judges/rate.php");
+        } else {
+            echo "<script>alert('Unauthorized role!'); window.location='../index.php';</script>";
+        }
     } else {
         echo "<script>alert('Invalid credentials!'); window.location='../index.php';</script>";
     }

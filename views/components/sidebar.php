@@ -10,21 +10,31 @@
     </div>
 
     <div class="sidebar-menu">
-        <a href="dashboard.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : ''; ?>">
-            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
-        </a>
-        <a href="candidates.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'candidates.php' ? 'active' : ''; ?>">
-            <i class="fas fa-user-friends"></i> <span>Candidates</span>
-        </a>
-        <a href="judges.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'judges.php' ? 'active' : ''; ?>">
-            <i class="fas fa-gavel"></i> <span>Judges</span>
-        </a>
-        <a href="criteria.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'criteria.php' ? 'active' : ''; ?>">
-            <i class="fas fa-list-ol"></i> <span>Criteria</span>
-        </a>
-        <a href="results.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'results.php' ? 'active' : ''; ?>">
-            <i class="fas fa-chart-line"></i> <span>Results</span>
-        </a>
+    <?php if ($_SESSION['role'] == 'admin') : ?>
+    <a href="dashboard.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : ''; ?>">
+        <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+    </a>
+    <a href="candidates.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'candidates.php' ? 'active' : ''; ?>">
+        <i class="fas fa-user-friends"></i> <span>Candidates</span>
+    </a>
+    <a href="judges.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'judges.php' ? 'active' : ''; ?>">
+        <i class="fas fa-gavel"></i> <span>Judges</span>
+    </a>
+    <a href="criteria.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'criteria.php' ? 'active' : ''; ?>">
+        <i class="fas fa-list-ol"></i> <span>Criteria</span>
+    </a>
+    <a href="results.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'results.php' ? 'active' : ''; ?>">
+        <i class="fas fa-chart-line"></i> <span>Results</span>
+    </a>
+<?php else : ?>
+    <a href="dashboard.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : ''; ?>">
+        <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+    </a>
+    <a href="rate.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'rate.php' ? 'active' : ''; ?>">
+            <i class="fas fa-gavel"></i> <span>Rating</span>
+    </a>
+<?php endif; ?>
+
         
     </div>
 </div>
