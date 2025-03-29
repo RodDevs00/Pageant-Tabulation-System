@@ -39,17 +39,57 @@ $resultMiss = mysqli_query($conn, $queryMiss);
     </style>
 </head>
 <body>
-
-<nav class="navbar topbar navbar-light px-3">
-        <a class="navbar-brand" href="#">
-            <img src="../../assets/image/adflogo.png" alt="Logo" class="logo">
+<nav class="navbar topbar navbar-light px-3 d-flex align-items-center">
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="../../assets/image/adflogo.png" alt="Logo" class="logo me-2">
+        
+        <!-- Styled Top 5 Button -->
+        <a href="top5.php" class="btn top5-btn">
+            <i class="fas fa-trophy"></i>Proceed to Top 5
         </a>
+    </a>
+
+    <!-- Logout Link (Pushed to the Right) -->
+    <div class="ms-auto">
         <a href="../../auth/logout.php" class="logout-link">
             <i class="fas fa-sign-out-alt"></i> 
         </a>
-    </nav>
+    </div>
+</nav>
+
+<style>
+    .top5-btn {
+        background: #007bff; /* Blue */
+        color: white;
+        font-weight: bold;
+        border-radius: 20px;
+        padding: 8px 15px;
+        transition: 0.3s ease-in-out;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+    }
+
+    .top5-btn:hover {
+        background: #0056b3; /* Darker Blue */
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .top5-btn i {
+        margin-right: 5px;
+    }
+
+    .logo {
+        height: 40px; /* Adjust size as needed */
+    }
+</style>
+
+
 
 <div class="content" id="content">
+
+
      <!-- Featured Image Section with Card -->
      <div class="container my-1 pt-5">
         <div class="card shadow">
@@ -65,8 +105,7 @@ $resultMiss = mysqli_query($conn, $queryMiss);
         </div>
     </div>
 
-    <h2 class="rating-title">This years Candidates</h2>
-
+    <h2 class="rating-title">This year's Candidates</h2>
 
     <!-- MISTER ADFC Row -->
     <div class="category-container">

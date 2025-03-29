@@ -11,26 +11,32 @@ $tableData = json_decode(urldecode($jsonData), true);
     <title>Printable Results | ADFC Pageant System</title>
     <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
     <style>
-        body {
-            font-size: 10pt;
+    body {
+        font-size: 10pt;
+    }
+    table {
+        width: 100%;
+    }
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .logo {
+        max-height: 80px; /* Adjust as needed */
+        margin-right: 20px;
+    }
+    .title {
+        text-align: center;
+    }
+    @media print {
+        #printButton {
+            display: none;
         }
-        table {
-            width: 100%;
-        }
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .logo {
-            max-height: 80px; /* Adjust as needed */
-            margin-right: 20px;
-        }
-        .title {
-            text-align: center;
-        }
-    </style>
+    }
+</style>
+
 </head>
 <body>
     <div class="container">
