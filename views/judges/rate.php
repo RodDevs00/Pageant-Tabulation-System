@@ -20,6 +20,14 @@ $resultMister = mysqli_query($conn, $queryMister);
 // Query for Miss ADFC
 $queryMiss = "SELECT * FROM contestants WHERE category = 'MISS ADFC' $whereClause ORDER BY candidate_number ASC";
 $resultMiss = mysqli_query($conn, $queryMiss);
+
+// Fetch top5_enabled value from the database
+$query = "SELECT top5_enabled FROM top5toggle WHERE adfc_edition = 'adfc " . date('Y') . "'";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+$top5_enabled = $row['top5_enabled'] ?? 0; // Default to 0 if not found
+
+
 ?>
 
 <!DOCTYPE html>
@@ -44,10 +52,13 @@ $resultMiss = mysqli_query($conn, $queryMiss);
     <a class="navbar-brand d-flex align-items-center" href="#">
         <img src="../../assets/image/adflogo.png" alt="Logo" class="logo me-2">
         
-        <!-- Styled Top 5 Button -->
+          <!-- Show Proceed Button Only if top5_enabled is 1 -->
+    <?php if ($top5_enabled == 1): ?>
         <a href="top5.php" class="btn top5-btn">
-            <i class="fas fa-trophy"></i>Proceed to Top 5
+            <i class="fas fa-trophy"></i> Proceed to Top 5
         </a>
+    <?php endif; ?>
+
     </a>
 
     <!-- Logout Link (Pushed to the Right) -->
@@ -245,7 +256,7 @@ function openRateModal(candidate) {
                                 <div class="mb-3">
                                     <label for="criteria_${crit.id}" class="form-label">${crit.name} (${crit.percentage}%)</label>
                                     <div class="input-group">
-                                        <input type="number" id="criteria_${crit.id}" class="form-control" min="1" max="100" step="1"
+                                        <input type="number" id="criteria_${crit.id}" class="form-control" min="50" max="100" step="1"
                                             value="${previousScore}" ${isRated ? "disabled" : isEditable ? "" : "disabled"}>
                                         <button class="btn btn-success submit-criteria" data-criteria-id="${crit.id}" 
                                             ${isRated ? "disabled" : isEditable ? "" : "disabled"}>${isRated ? "✅" : "✔️ Rate"}</button>
@@ -293,10 +304,10 @@ document.getElementById("criteriaContainer").addEventListener("click", function 
     let category = document.getElementById("candidate_category").innerText.trim();
     let score = input.value.trim();
 
-    if (!score || isNaN(score) || score < 1 || score > 100) {
+    if (!score || isNaN(score) || score < 50 || score > 100) {
         Swal.fire({
             title: "Invalid Score",
-            text: "Each score must be between 1 and 100.",
+            text: "Each score must be between 50 and 100.",
             icon: "warning",
             confirmButtonText: "OK"
         });

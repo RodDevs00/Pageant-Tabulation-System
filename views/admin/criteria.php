@@ -75,6 +75,7 @@ $result = $conn->query($query);
                         <th>Criteria Name</th>
                         <th>Category</th>
                         <th>Percentage (%)</th>
+                        <th>Top 5</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -85,13 +86,13 @@ $result = $conn->query($query);
                             <td><?= $row['name'] ?></td>
                             <td><?= $row['category'] ?></td>
                             <td><?= $row['percentage'] ?>%</td>
-                            <td>
+                            <td><?= $row['top5'] ? 'Yes' : 'No' ?></td> <td>
                                 <button class="btn btn-primary btn-sm edit-btn" 
                                         data-id="<?= $row['id'] ?>" 
                                         data-name="<?= $row['name'] ?>" 
                                         data-category="<?= $row['category'] ?>" 
-                                        data-percentage="<?= $row['percentage'] ?>" 
-                                        data-bs-toggle="modal" 
+                                        data-percentage="<?= $row['percentage'] ?>"
+                                        data-top5="<?= $row['top5'] ?>" data-bs-toggle="modal" 
                                         data-bs-target="#editCriteriaModal">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
@@ -120,17 +121,23 @@ $result = $conn->query($query);
 $(document).ready(function() {
     // Add Criteria using AJAX
     $("#addCriteriaForm").submit(function(e) {
-        e.preventDefault();
-        let name = $("#criteria_name").val();
-        let category = $("#criteria_category").val();
-        let percentage = $("#criteria_percentage").val();
+    e.preventDefault();
+    let name = $("#criteria_name").val();
+    let category = $("#criteria_category").val();
+    let percentage = $("#criteria_percentage").val();
+    let top5 = $("#criteria_top5").is(":checked"); // Retrieve checkbox value
 
-        $.post("../../controllers/add_criteria.php", { name: name, category: category, percentage: percentage }, function(response) {
-            Swal.fire("Success", "Criteria added successfully!", "success").then(() => {
-                location.reload();
-            });
+    $.post("../../controllers/add_criteria.php", {
+        name: name,
+        category: category,
+        percentage: percentage,
+        top5: top5 // Include top5 in the data
+    }, function(response) {
+        Swal.fire("Success", "Criteria added successfully!", "success").then(() => {
+            location.reload();
         });
     });
+});
 
     // Populate Edit Modal
     $(document).on("click", ".edit-btn", function() {
@@ -138,11 +145,15 @@ $(document).ready(function() {
         let name = $(this).data("name");
         let category = $(this).data("category");
         let percentage = $(this).data("percentage");
+        let top5 = $(this).data("top5"); // Get top5 value
 
         $("#edit_criteria_id").val(id);
         $("#edit_criteria_name").val(name);
         $("#edit_criteria_category").val(category);
         $("#edit_criteria_percentage").val(percentage);
+
+        // Set checkbox state
+        $("#edit_criteria_top5").prop("checked", top5 === 1);
     });
 
     // Edit Criteria using AJAX
@@ -152,13 +163,22 @@ $(document).ready(function() {
         let name = $("#edit_criteria_name").val();
         let category = $("#edit_criteria_category").val();
         let percentage = $("#edit_criteria_percentage").val();
+        let top5 = $("#edit_criteria_top5").is(":checked"); // Get checkbox state
 
-        $.post("../../controllers/edit_criteria.php", { id: id, name: name, category: category, percentage: percentage }, function(response) {
+        $.post("../../controllers/edit_criteria.php", {
+            id: id,
+            name: name,
+            category: category,
+            percentage: percentage,
+            top5: top5 // Include top5 in the data
+        }, function(response) {
             Swal.fire("Success", "Criteria updated successfully!", "success").then(() => {
                 location.reload();
             });
         });
     });
+
+
 });
 
   // Delete Criteria

@@ -134,13 +134,14 @@ cursor: grab;
 }
 
 .rating-title {
-    font-size: 2rem; /* Larger font size */
-    font-weight: bold; /* Bold text */
-    color: #333; /* Dark color for text */
-    text-align: center; /* Center-align the text */
-    margin-top: 20px; /* Margin at the top */
-    margin-bottom: 15px; /* Margin at the bottom */
-    letter-spacing: 1px; /* Add some letter spacing */
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    font-family: Helvetica, Arial, sans-serif; /* Using Helvetica */
 }
 
 .scroll-instruction {
